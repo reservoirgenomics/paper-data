@@ -1,0 +1,11 @@
+wget ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2644nnn/GSM2644945/suppl/GSM2644945_Untreated-R1.20000.cool.gz
+gunzip GSM2644945_Untreated-R1.20000.cool.gz
+cooler zoomify GSM2644945_Untreated-R1.20000.cool
+
+wget ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2644nnn/GSM2644947/suppl/GSM2644947_Auxin2days-R1.20000.cool.gz
+gunzip GSM2644947_Auxin2days-R1.20000.cool.gz
+cooler zoomify GSM2644947_Auxin2days-R1.20000.cool
+
+wget ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2644nnn/GSM2644949/suppl/GSM2644949_Washoff2days-R1.20000.cool.gz
+gunzip GSM2644949_Washoff2days-R1.20000.cool.gz
+cooler zoomify GSM2644949_Washoff2days-R1.20000.cool
