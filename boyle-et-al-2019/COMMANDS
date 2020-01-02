@@ -1,0 +1,23 @@
+export RESGEN_USER=pete; export RESGEN_PASSWORD=testtest; jupyter notebook;
+
+clodius aggregate bedfile Ctcf_WT_allMot.bed --assembly mm10
+clodius aggregate bedfile AdnpFBpeaks_allMot.bed --assembly mm10
+
+for window in $(seq 50000 10000 400000); do
+    cooltools diamond-insulation WT.1000.mcool::/resolutions/10000 $window > insulation_${window}.bed;
+done;
+
+for window in $(seq 50000 10000 400000); do
+    cooltools diamond-insulation AdnpKO.1000.mcool::/resolutions/10000 $window > insulation_adnpKO/insulation_${window}.bed;
+done;
+
+clodius convert bedfile-to-multivec --assembly mm10 $(for w in $(seq 50000 10000 400000); do echo insulation_$w.bed; done) --value-col 5 --has-header --method logsumexp --starting-resolution 10000
+clodius convert bedfile-to-multivec --assembly mm10 $(for w in $(seq 50000 10000 400000); do echo insulation_adnpKO/insulation_$w.bed; done) --value-col 5 --has-header --method logsumexp --starting-resolution 10000 --output-file insulation_adnpKO/insulation_adnpKO.mv5
+
+higlass-manage view insulation_100000.multires.mv5 --filetype multivec --datatype multivec --tracktype horizontal-multivec
+
+
+## Other stuff
+
+awk '{ print $1 "\t" $2 "\t" $3 "\t" $4 "\t" int($5) "\t" $6 }' Ctcf_WT_allMot.bed.short > Ctcf_WT_allMot.bed.short.1
+./bedToBigBed Ctcf_WT_allMot.bed.short.1 ~/projects/negspy/negspy/data/mm10/chromInfo.txt  Ctcf_WT_allMot.bed.short.bb
