@@ -1,0 +1,29 @@
+hic2cool convert GSE80820_HiChIP_mES_Oct4.hic GSE80820_HiChIP_mES_Oct4.mcool
+hic2cool convert GSE80820_HiChIP_GM_cohesin.hic GSE80820_HiChIP_GM_cohesin.mcool
+hic2cool convert GSE80820_HiChIP_mES_cohesin_all.hic GSE80820_HiChIP_mES_cohesin_all.mcool
+
+java -Xms512m -Xmx2048m -jar juicer_tools_1.14.08.jar hiccups --cpu -m 500 -r 5000,10000 -f 0.1,0.1 -p 4,2 -i 7,5 -d 20000,20000 GSE80820_HiChIP_mES_cohesin_all.hic HiCCUPS_mES_cohesin_all
+java -Xms512m -Xmx2048m -jar juicer_tools_1.14.08.jar hiccups --cpu -m 500 -r 5000,10000 -f 0.1,0.1 -p 4,2 -i 7,5 -d 20000,20000 GSE80820_HiChIP_GM_cohesin.hic HiCCUPS_GM_cohesin
+java -Xms512m -Xmx2048m -jar juicer_tools_1.14.08.jar hiccups --cpu -m 500 -r 5000,10000 -f 0.1,0.1 -p 4,2 -i 7,5 -d 20000,20000 GSE80820_HiChIP_GM_cohesin.hic HiCCUPS_GM_cohesin
+java -Xms512m -Xmx2048m -jar juicer_tools_1.14.08.jar hiccups --cpu -m 500 -r 5000,10000 -f 0.1,0.1 -p 4,2 -i 7,5 -d 20000,20000 GSE80820_HiChIP_mES_Oct4.hic HiCCUPS_mES_Oct4
+
+cd HiCCUPS_mES_cohesin_all
+cat merged_loops.bedpe | grep -v '#' | awk '{ print $1 "\t" $22 "\t" $23 }' > merged_loops.bed
+clodius aggregate bedfile merged_loops.bed --assembly mm9b
+mv merged_loops.bed.beddb GSE80820_HiChIP_hiccups_loops_mES_cohesin_all.beddb
+cd ..
+
+cd HiCCUPS_GM_cohesin
+cat merged_loops.bedpe | grep -v '#' | awk '{ print $1 "\t" $22 "\t" $23 }' > merged_loops.bed
+clodius aggregate bedfile merged_loops.bed --assembly b37
+mv merged_loops.bed.beddb GSE80820_HiChIP_hiccups_loops_GM_cohesin.beddb
+cd ..
+
+cd HiCCUPS_mES_Oct4
+cat merged_loops.bedpe | grep -v '#' | awk '{ print $1 "\t" $22 "\t" $23 }' > merged_loops.bed
+clodius aggregate bedfile merged_loops.bed --assembly mm9b
+mv merged_loops.bed.beddb GSE80820_HiChIP_hiccups_loops_mES_Oct4.beddb
+cd ..
+
+
+
