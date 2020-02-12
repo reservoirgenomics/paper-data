@@ -1,0 +1,4 @@
+pip install hic2cool
+
+hic2cool convert GSE131651_NSD2_HIGH_arima.hic GSE131651_NSD2_HIGH_arima.mcool
+hic2cool convert GSE131651_NSD2_LOW_arima.hic GSE131651_NSD2_LOW_arima.mcool
